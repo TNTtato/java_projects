@@ -2,11 +2,14 @@ package com.example.obrestdatajpa.controllers;
 
 import com.example.obrestdatajpa.entities.Books;
 import com.example.obrestdatajpa.repositories.BooksRepository;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +44,8 @@ public class BookController {
      * @return
      */
     @GetMapping("/api/books/{id}")
-    public ResponseEntity<Books> findOneById(@PathVariable Long id) {
+    @ApiOperation("Return a book by it's ID")
+    public ResponseEntity<Books> findOneById(@ApiParam("Here goes the ID") @PathVariable Long id) {
         Optional<Books> booksOptional = booksRepository.findById(id);
         /*
         * Opcion 1: Devolver una entidad Book o devolver null
@@ -94,6 +98,7 @@ public class BookController {
         return ResponseEntity.noContent().build();
     }
 
+    @ApiIgnore
     @DeleteMapping("/api/books")
     public ResponseEntity<Books> deleteAll() {
         log.debug("REST Request for Delete all books");
